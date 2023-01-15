@@ -550,10 +550,13 @@ function alpha.draw(conf, state)
     -- when the screen is cleared and then redrawn
     -- so we save the index before that happens
     local ix = cursor_ix
-    vim.api.nvim_buf_set_option(state.buffer, "modifiable", true)
-    vim.api.nvim_buf_set_lines(state.buffer, 0, -1, false, {})
-    layout(conf, state)
-    vim.api.nvim_buf_set_option(state.buffer, "modifiable", false)
+    local valid = vim.api.nvim_buf_is_valid(state.buffer)
+    if valid
+        vim.api.nvim_buf_set_option(state.buffer, "modifiable", true)
+        vim.api.nvim_buf_set_lines(state.buffer, 0, -1, false, {})
+        layout(conf, state)
+        vim.api.nvim_buf_set_option(state.buffer, "modifiable", false)
+    end
     if vim.api.nvim_get_current_win() == state.window then
         if #cursor_jumps ~= 0 then
             vim.api.nvim_win_set_cursor(state.window, cursor_jumps[ix])
