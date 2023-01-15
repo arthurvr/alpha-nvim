@@ -551,7 +551,7 @@ function alpha.draw(conf, state)
     -- so we save the index before that happens
     local ix = cursor_ix
     local valid = vim.api.nvim_buf_is_valid(state.buffer)
-    if valid
+    if valid then
         vim.api.nvim_buf_set_option(state.buffer, "modifiable", true)
         vim.api.nvim_buf_set_lines(state.buffer, 0, -1, false, {})
         layout(conf, state)
